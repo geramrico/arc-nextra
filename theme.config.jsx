@@ -4,6 +4,13 @@ export default {
     link: 'https://arcusfi.com',
     icon: '',
   },
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="CashDemoDocs" />
+      <meta property="og:description" content="Demo Docs for APN" />
+    </>
+  ),
   feedback: {
     content: null,
   },
