@@ -1,0 +1,37 @@
+# Arcus API Endpoint Reference
+
+Welcome to the Arcus API Endpoint Reference guide. This resource is designed to provide you with a comprehensive overview of the various API endpoints available for interacting with the Arcus platform. Whether you're looking to retrieve account information, manage transactions, or initiate various types of financial operations, our API has you covered.
+
+The table below outlines each endpoint along with a brief description to help you understand its functionality. This will serve as a quick reference for developers to navigate through the API's capabilities efficiently.
+
+| Endpoint                  | Description                                                                                               |
+| :------------------------ | :-------------------------------------------------------------------------------------------------------- |
+| GET /account              | Retrieves general information about your account, including the current balance.                          |
+| GET /billers/arcuspay     | Fetches a list of available payees that can be paid through the ArcusPay network.                         |
+| GET /transactions         | Lists all transactions associated with your account, including their statuses and details.                |
+| POST /transaction/cancel | Cancels a transaction. Requires the transaction ID as a parameter.                                |
+| POST /single/pay          | Initiates a payment transaction. Requires details like the biller ID, account number, and amount.         |
+| POST /single/deposit      | Initiates a deposit transaction. Requires details like the biller ID, account number, and amount.         |
+| POST /single/cash_out     | Initiates a cash withdrawal transaction. Requires details like the biller ID, account number, and amount. |
+
+# WIP 🚧 🦺
+
+### General
+---
+#### `GET` /account
+
+### Billers
+---
+
+#### `GET` /billers/arcuspay
+
+### Create a Transaction
+---
+#### `POST` /single/pay
+#### `POST` /single/deposit
+#### `POST` /single/cash_out
+
+### Transaction Query and Cancellation
+---
+#### `GET` /transactions
+#### `POST` /transaction/cancel

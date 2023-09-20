@@ -1,0 +1,39 @@
+import { Steps } from 'nextra-theme-docs'
+import { Callout } from 'nextra-theme-docs'
+
+<Steps>
+### Alignment and kick off
+
+Begin with an initial meeting between your team and Arcus's integration specialists. This meeting will set the stage for the integration, outlining the scope, timelines, and responsibilities.
+### Get sandbox access
+
+After the kick-off, you'll receive credentials to access Arcus's sandbox environment. This is a safe space where you can experiment with the API without affecting live data.
+### Start testing the API
+
+Use the sandbox environment to start making API calls. Familiarize yourself with the request and response formats, and test different types of transactions to ensure they meet your business requirements.
+
+Get a head start using our postman collection:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/run-collection/:collection_id)
+### Create a mock conciliation file
+
+Generate a mock [conciliation file](/guides/conciliation-file) based on the transactions you've tested in the sandbox. This will help you understand the file structure and prepare you for the real conciliation process.
+<Callout type='warning'>
+If you are integrating as a Banking Correspondent (operating with regulated financial entities) you should also [cipher](/guides/conciliation-cipher-process) the conciliation file.
+</Callout>
+
+### Get certified
+
+Once you're comfortable with the API and the mock conciliation file, you'll go through a certification process. This involves a series of tests to ensure that your implementation meets Arcus's standards for security and functionality.
+
+### Get access to our production environment
+
+After successful certification, you'll receive credentials to access Arcus's production environment. At this point, you can start processing real transactions and will be fully integrated with Arcus's services.
+
+To get production access you need to:
+- [ ] Pass certification tests
+- [ ] Complete the [Pre-Production Questionnaire](/resources/production-info)
+- [ ] Have a signed contract
+
+
+</Steps>

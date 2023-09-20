@@ -1,0 +1,6 @@
+{
+  "authentication": "Authentication",
+  "idempotent-requests": "Idempotent Requests",
+  "errors": "Errors",
+  "endpoints": "Endpoints"
+}

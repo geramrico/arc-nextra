@@ -1,0 +1,27 @@
+# Idempotent Requests
+## Overview
+
+Idempotency ensures that multiple identical requests have the same effect as a single request. In the Arcus API, various HTTP methods exhibit different idempotent behaviors:
+
+* Safe Methods: GET is considered a safe method, designed solely for data retrieval. It is inherently idempotent.
+
+* Idempotent Methods: PUT and DELETE are idempotent by definition, meaning repeated calls yield the same result.
+
+* Non-Idempotent Method: POST is generally not idempotent, as it is often used to create new resources. Multiple identical POST requests typically result in multiple new resources.
+
+## Special Handling of POST Requests
+Arcus API extends idempotency to POST requests, allowing you to safely retry a failed or timed-out request without the risk of unintended duplication. For instance, if a payment API call times out, you can resend the same request with the assurance that the payment will only be processed once.
+
+## Implementation
+To enable idempotency for POST requests in Arcus API V3.mx, include an additional header named `Idempotency-Key` in your request.
+
+## Rules for Idempotency-Key
+* Maximum Length: The idempotency key can be up to 36 digits long.
+
+* Minimum Length: The idempotency key must be at least 12 digits long.
+
+* Recommended Format: We recommend using a Version 4 UUID as the idempotency key.
+
+* Expiration: The idempotency key will expire 24 hours after its creation.
+
+By adhering to these guidelines, you can leverage idempotency to make your API interactions more robust and reliable.

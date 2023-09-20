@@ -1,0 +1,38 @@
+## Transaction Receipts
+
+As a banking correspondent, you are required by regulation to print and hand to the final user a transaction receipt for the following:
+
+- Successful transaction: Either por payements, deposits or withdrawals.
+- Exceeding transaction limits: Getting an HTTP 422 Status code with the error code R126 y R127.
+
+### Succesful Transaction
+
+You can consider a transaction successful when you get an HTTP 200 response along with a transaction object.
+
+Whenever that happens, you must print a receipt that contains the following information:
+
+- [ ] Transaction Timestamp: Date and time
+- [ ] The transaction reference is masked. For example: the acount 123456789 is shown as `*****6789`
+- [ ] It includes the legend, depending on the case:
+  - Deposit: `"Depósito en efectivo a cuenta de débito [Financial Institution Commercial Name]"`
+  - Payment: `"Pago en efectivo de tarjeta de crédito [Financial Institution Commercial Name]"`
+  - Withdrawal: `"Retiro de efectivo de cuenta [Financial Institution Commercial Name]"`
+- [ ] Identifies the Banking Correspondent: Your own legal name
+- [ ] Includes the text: `"La operación se hace por cuenta y orden de [Financial Institution Legal Name]"`
+- [ ] Transaction PoS Address
+- [ ] Cashier ID: Employee ID or name
+- [ ] Customer Support Info:
+  -      Provided in the field "`ticket_text`" from the API response
+
+### Exceeding Transaction Amount limits
+
+Arcus will respond with error R126 and R127, as well as a message associated with each error code when a user tries to make a transaction that exceeds the operation limits allowed by the CNBV:
+
+- Deposit and Payments: 4000 UDI / day / account
+- Withdrawal: 1500 UDI / day / account
+
+You do not need to validate this rule on your end. Arcus will send the fitting error message when applicable. However, you must print on the receipt:
+
+**Error R126**: Print value from the "message" field in the receipt.
+
+**Error R127**: Print value from the "message" field in the receipt.

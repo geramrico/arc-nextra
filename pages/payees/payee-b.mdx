@@ -1,0 +1,48 @@
+import { Tabs, Tab } from 'nextra-theme-docs'
+
+## Payee B
+
+### General Information
+
+| **Concept**                | **Data**                                                                                  |
+| :------------------------- | :---------------------------------------------------------------------------------------- |
+| Financial Institution Name | Payee B                                                                                   |
+| Commercial Name            | Payee B (List under this name at your POS)                                                |
+| Legal Name                 | Payee B Co. S.A. de C.V. (Print on the receipt)                                           |
+| ID / SKU                   | 54329 ([biller_id in transaction request](/API-reference/endpoints#create-a-transaction)) |
+| Applicable Endpoint(s))    | POST /single/deposit, /single/pay, /single/cash_out                                                                      |
+
+### Transaction Reference Specification
+
+<Tabs items={['Deposit','Card Payment','Cash Out']}>
+  <Tab>
+  | **Concept**         | **Data**                  |
+| :------------------ | :------------------------ |
+| Length              | 16                        |
+| BIN or Prefix       | Yes, 6 digits. Confidential until given production access. Use `111111` for testing.                      |
+| Description         | Card Number |
+| Capture via Barcode | True                      |
+| Capture via QR      | True                      |
+| Capture Manually    | True                      |
+  </Tab>
+  <Tab>
+  | **Concept**         | **Data**                  |
+| :------------------ | :------------------------ |
+| Length              | 16                        |
+| BIN or Prefix       | Yes, 6 digits. Confidential until given production access. Use `222222` for testing.                        |
+| Description         | Card Number |
+| Capture via Barcode | True                      |
+| Capture via QR      | True                      |
+| Capture Manually    | True                      |
+  </Tab>
+  <Tab>
+  | **Concept**         | **Data**                  |
+| :------------------ | :------------------------ |
+| Length              | 16                        |
+| BIN or Prefix       | Yes, 6 digits. Confidential until given production access. Use `333333` for testing.                         |
+| Description         | BIN + 10 random digits |
+| Capture via Barcode | True                      |
+| Capture via QR      | True                      |
+| Capture Manually    | True                      |
+  </Tab>
+</Tabs>

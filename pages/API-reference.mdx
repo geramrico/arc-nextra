@@ -1,0 +1,67 @@
+import { Callout } from 'nextra-theme-docs'
+
+# API Reference
+
+Welcome to the API Reference section of our documentation.
+
+This part is designed to provide you with detailed information on how to interact with our Cash Products API, specifically focusing on cash transactions.
+
+Whether you're a network of physical retail locations or a system supplier for point-of-sale (POS) software, this guide will help you understand the API endpoints, request and response formats, and data types involved in facilitating cash transactions.
+
+Try our Postman Collection:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/run-collection/:collection_id)
+
+## Environments
+
+<Callout type='info' emoji="ℹ️">
+  We offer two environments for you to interact with our API:
+  * **Sandbox**: For testing purposes, the Arcus onboarding team will provide you with sandbox credentials. This environment allows you to test all API functionalities without affecting live data.
+
+  * **Production**: Access to the production environment is subject to certification and contract signing. This is the live environment where real transactions occur.
+
+  </Callout>
+
+| Sandbox                          | Production               |
+| :------------------------------- | :----------------------- |
+| https://api.staging.arcusapi.com | https://api.arcusapi.com |
+
+## Timeouts
+
+<Callout type="warning" emoji="⚠️">
+  Please note that the API has a timeout of **60 seconds** for each request.
+  Make sure to design your system to handle timeouts either by [Idempotency Key](/API-reference/idempotent-requests) or querying transactions.
+</Callout>
+
+## Security
+
+To ensure the highest level of security, all API requests must be made over HTTPS. This is mandatory, regardless of the environment you are operating in.
+
+**Note**: For added security, our API only supports TLS v1.2 or newer.
+
+### Security HTTP Headers
+
+Our API is designed to include a set of security HTTP headers in all responses. These headers are as follows:
+
+- **X-Frame-Options**: This header helps protect against clickjacking attacks.
+- **X-Content-Type-Options**: This header prevents browsers from MIME-sniffing a response away from the declared content-type.
+- **Strict-Transport-Security**: This header ensures that the browser only interacts with the server using a secure HTTPS connection.
+- **Content-Security-Policy**: This header helps prevent a range of attacks, including Cross-site Scripting (XSS) and data injection attacks.
+- **Referrer-Policy**: This header controls how much referrer information should be included with requests.
+- **Cache-Control**: This header defines how, or if, the browser should cache the response.
+- **Feature-Policy**: This header allows you to enable or disable browser features in an iframe.
+- **Cross-Origin-Embedder-Policy**: This header ensures that the document can only load resources which are also cross-origin isolated.
+- **Cross-Origin-Resource-Policy**: This header controls which origins can safely load a resource.
+- **Cross-Origin-Opener-Policy**: This header ensures isolation from other documents, providing more security.
+
+By adhering to these security measures, you can ensure a secure and compliant integration with our API.
+
+## IP Whitelisting
+
+To ensure the highest level of security and to restrict unauthorized access, Arcus employs IP whitelisting for production access. Only requests originating from approved IP addresses will be allowed to interact with the production environment.
+
+Guidelines:
+
+- Up to 60 static IP addresses can be whitelisted per customer.
+- IP ranges are not allowed. Each IP must be specified individually.
+- Only static IP addresses are eligible for whitelisting.

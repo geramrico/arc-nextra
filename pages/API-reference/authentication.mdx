@@ -1,0 +1,168 @@
+import { Steps, Tabs, Tab } from 'nextra-theme-docs'
+
+# Authentication
+
+## Request Headers
+
+The Arcus API uses a unique form of authentication based on the request path and HTTP headers. This guide will walk you through the process of generating the required Authorization header for your API requests.
+
+Every API request must include the following headers:
+
+* **Accept**: Always set to `application/vnd.regalii.v3.mx+json`.
+* **Content-Type**: Always set to `application/json`.
+* **Date**: The date and time the message was originated, in RFC 822 format (e.g., Wed, 01 Aug 2018 17:26:52 GMT).
+* **Content-MD5** (*optional*): An MD5 digest of the request body for end-to-end integrity.
+* **Authorization**: The authentication credentials in the form APIAuth `<your-api-key>:<checksum>`.
+
+## Calculating the Checksum
+<Steps>
+### Create the Checksum String
+
+First, create a checksum string using the following HTTP headers and the endpoint you're accessing:
+
+"Content-Type, Content-MD5, Date, Endpoint"
+
+The checksum string should be formatted as follows:
+
+``` txt
+<checksum-string> = "<Content-Type>,<Content-MD5>,<Endpoint>,<Date>"
+```
+For example, if you're accessing the `/account` endpoint and today's date is Wed, 01 Aug 2018 17:26:52 GMT, the checksum string would be:
+
+
+``` txt
+"application/json,,/account,Wed, 01 Aug 2018 17:26:52 GMT"
+```
+
+### Generate the HMAC Base64 Checksum
+
+Next, generate an HMAC encoded in Base64 using SHA-1 as the hash function and your secret key as the cryptographic key.
+
+You can use OpenSSL to calculate the checksum as follows:
+
+``` bash
+echo -n "<checksum-string>" \
+  | openssl dgst -sha1 -binary -hmac "<your-secret-key>" \
+  | base64
+```
+For example, if your checksum string and secret key are as follows:
+
+```
+<checksum-string>: "application/json,,/account,Wed, 01 Aug 2018 17:26:52 GMT"
+<your-secret-key>: "your-secret-key"
+```
+The generated checksum would be `PbYMLSKsXhplSStqyySn63UFEc8=`.
+
+### Include the Authorization Header
+
+Finally, include the Authorization header in your API requests using the format:
+
+```
+APIAuth <your-api-key>:<checksum>
+```
+By following these steps, you'll be able to securely authenticate your API requests.
+
+</Steps>
+
+## Code Snippets
+
+<Tabs items={['Python','Javascript']}>
+<Tab>
+```py
+import hashlib
+import hmac
+import base64
+from datetime import datetime
+
+def generate_headers(api_key, secret_key, endpoint):
+    # Current date and time in RFC 822 format
+    current_date = datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
+
+    # Content-Type and Content-MD5 headers
+    content_type = "application/json"
+    content_md5 = ""  # Optional, can be left empty if not needed
+
+    # Create the checksum string
+    checksum_string = f"{content_type},{content_md5},{endpoint},{current_date}"
+
+    # Generate HMAC using SHA-1
+    hashed = hmac.new(secret_key.encode('utf-8'), checksum_string.encode('utf-8'), hashlib.sha1)
+
+    # Base64 encode the HMAC
+    checksum = base64.b64encode(hashed.digest()).decode('utf-8')
+
+    # Create the Authorization header
+    authorization_header = f"APIAuth {api_key}:{checksum}"
+
+    # Return all headers
+    headers = {
+        "Accept": "application/vnd.regalii.v3.mx+json",
+        "Content-Type": content_type,
+        "Content-MD5": content_md5
+        "Date": current_date,
+        "Authorization": authorization_header
+    }
+
+    return headers
+
+# Your API key and secret key
+api_key = "your-api-key"
+secret_key = "your-secret-key"
+
+# The endpoint you're accessing (e.g., "/account")
+endpoint = "/account"
+
+# Generate and print all headers
+headers = generate_headers(api_key, secret_key, endpoint)
+print("Generated Headers:", headers)
+```
+</Tab>
+<Tab>
+```js
+const crypto = require('crypto');
+
+function generateHeaders(apiKey, secretKey, endpoint) {
+  // Current date and time in RFC 822 format
+  const current_date = new Date().toGMTString();
+
+  // Content-Type and Content-MD5 headers
+  const content_type = 'application/json';
+  const content_md5 = '';  // Optional, can be left empty if not needed
+
+  // Create the checksum string
+  const checksum_string = `${content_type},${content_md5},${endpoint},${current_date}`;
+
+  // Generate HMAC using SHA-1
+  const hmac = crypto.createHmac('sha1', secretKey);
+  hmac.update(checksum_string);
+  const checksum = hmac.digest('base64');
+
+  // Create the Authorization header
+  const authorization_header = `APIAuth ${apiKey}:${checksum}`;
+
+  // Return all headers
+  const headers = {
+    'Accept': 'application/vnd.regalii.v3.mx+json',
+    'Content-Type': content_type,
+    'Content-MD5': content_md5,
+    'Date': current_date,
+    'Authorization': authorization_header
+  };
+
+  return headers;
+}
+
+// Your API key and secret key
+const apiKey = 'your-api-key';
+const secretKey = 'your-secret-key';
+
+// The endpoint you're accessing (e.g., "/account")
+const endpoint = '/account';
+
+// Generate and print all headers
+const headers = generateHeaders(apiKey, secretKey, endpoint);
+console.log('Generated Headers:', headers);
+
+```
+</Tab>
+</Tabs>

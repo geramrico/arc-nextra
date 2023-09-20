@@ -1,0 +1,128 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Conciliation File Structure Guide
+
+The conciliation file serves as a comprehensive record of transactions processed through the Arcus API. It is generated in a `.txt` format and consists of a header, multiple register lines, and a footer. Each line in the file provides specific details about transactions or the file itself.
+
+<Callout>
+All transaction endpoints have the exact same request-response body structure. There is no netting between cash-in (payments and deposits) and cash-out transactions. Separate API credentials, conciliation files, SFTP servers, and operative accounts will be used for each type of transaction. The settlement process is also separate.
+</Callout>
+
+## File Structure
+
+### Header
+
+The first line of the file is the header, which indicates the creation date of the file.
+
+**Format**: `HEADER|YYYYMMDD`
+
+- `YYYYMMDD`: The creation date of the file in the format YearMonthDay.
+
+**Example**: `HEADER|20180809`
+
+### Register Lines
+
+Each register line represents a single transaction and contains details that correspond to the request and response from the transaction endpoints.
+
+**Format**: `REGISTER|created_at|biller_id|id|account_number|amount|currency|pos_number|external_id`
+
+- `created_at`: The timestamp when the transaction was created.
+- `biller_id`: The ID of the biller involved in the transaction.
+- `id`: The unique ID of the transaction.
+- `account_number`: The account number associated with the transaction.
+- `amount`: The transaction amount.
+- `currency`: The currency of the transaction amount (e.g., MXN).
+- `pos_number`: The Point of Sale (POS) number where the transaction occurred.
+- `external_id`: An external identifier for the transaction.
+
+**Example**: `REGISTER|2018-08-08T17:09|40|177467|501000000007|185.00|MXN|S12C03|bcc2263d-9918-4df9-b948-035c60c81cce`
+
+### Footer
+
+The last line of the file is the footer, which indicates the total number of register lines in the file.
+
+**Format**: `FOOTER|N`
+
+- `N`: The number of register lines in the file.
+
+**Example**: `FOOTER|2`
+
+## Submission Guidelines
+
+### SFTP Upload
+
+The conciliation file should be uploaded to an SFTP server provided by Arcus before 5 AM CST for automatic processing.
+
+### File Naming Convention
+
+The file should be named according to the following convention: `<customer_name_in_api>_YYYYMMDD.txt`.
+
+### Transaction Inclusion
+
+The file should include all transactions processed from the day before, between 00:00 and 23:59.
+
+### Conciliation Results
+
+Arcus will send the conciliation results to the [designated people](/resources/production-info).
+
+### No Transactions
+
+If there are no transactions for the day, the file should only contain the header and footer.
+```txt copy filename="sample-client_20230920.txt"
+HEADER|20230919
+FOOTER|0
+```
+
+
+
+
+
+
+## Example
+
+For the below request-response, which could be for any of these endpoints:
+
+* `POST` /single/pay
+* `POST` /single/deposit
+* `POST` /single/cash_out
+
+The following conciliation file should be created:
+#### .txt file Example
+```txt copy filename="sample-client_20230920.txt"
+HEADER|20230919
+REGISTER|2023-09-19T17:35:31|37|2681173116846|3331231234|5568.00|MXN|S12C03|84bce950-c878-483e-aeca-41217f969301
+FOOTER|1
+```
+
+#### Request
+```json copy
+{
+  "biller_id": 37,
+  "account_number": "3331231234",
+  "amount": 12.21,
+  "currency": "MXN",
+  "external_id": "84bce950-c878-483e-aeca-41217f969301",
+  "pos_number": "S12C03",
+  "cashier_id": "CASH956"
+}
+```
+#### Response
+```json copy
+{
+  "type": "transaction",
+  "id": 2681173116846,
+  "amount": 5568,
+  "amount_currency": "MXN",
+  "fx_rate": 18.2569,
+  "amount_usd": 304.98,
+  "transaction_fee": 3,
+  "total_usd": 307.98,
+  "hours_to_fulfill": 48,
+  "created_at": "2023-09-19T17:35:31Z",
+  "status": "fulfilled",
+  "external_id": "84bce950-c878-483e-aeca-41217f969301",
+  "ticket_text": "Authorization 6523d5dfc5b",
+  "account_number": "3331231234"
+}   
+```
+

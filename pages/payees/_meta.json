@@ -1,0 +1,13 @@
+{
+  "-- Regulated": {
+    "type": "separator",
+    "title": "Regulated"
+  },
+  "payee-a":"Payee A",
+  "payee-b":"Payee B",
+  "-- Non-Regulated": {
+    "type": "separator",
+    "title": "Non-regulated"
+  },
+  "payee-arcuspay":"Arcuspay"
+}

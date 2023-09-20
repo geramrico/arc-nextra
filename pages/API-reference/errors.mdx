@@ -1,0 +1,101 @@
+import { Callout } from 'nextra-theme-docs'
+
+## Errors
+
+Understanding error codes is crucial for effective troubleshooting. The Arcus API uses both HTTP status error codes and custom Arcus API error codes to indicate the nature of an issue.
+
+### HTTP Error Codes
+
+| Code | Status                | Description                                                                                          |
+| ---- | --------------------- | ---------------------------------------------------------------------------------------------------- |
+| 200  | OK                    | The request was successful.                                                                          |
+| 400  | Bad Request           | Something is wrong in the request.                                                                   |
+| 401  | Unauthorized          | Your API key or checksum is wrong, or your IP is not on the whitelist in the production environment. |
+| 403  | Forbidden             | You are not authorized to access the resource requested.                                             |
+| 404  | Not Found             | The specified resource could not be found.                                                           |
+| 429  | Too Many Requests     | You’re sending too many requests! Slow down!                                                         |
+| 500  | Internal Server Error | We had a problem with our server. Try again later.                                                   |
+| 503  | Service Unavailable   | Please try again later.                                                                              |
+
+<Callout type='info' emoji='‼️'>
+**For Banking Correspondents**
+
+If you are a banking correspondent, it is mandatory to comply with CNBV regulations. Specifically, you must implement error codes **R126** and **R127** in your system.
+
+Whenever you get these errors, you must print the text in the _"message"_ field in a receipt and hand it to the final user.
+
+</Callout>
+
+### Arcus API Error Codes
+
+| Code | Message                                                                                                                                |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| R1   | Invalid number of digits in account number                                                                                             |
+| R2   | Invalid Account Number                                                                                                                 |
+| R3   | Invalid Payment Amount                                                                                                                 |
+| R4   | Account number does not resolve with biller                                                                                            |
+| R5   | Invalid Phone Number                                                                                                                   |
+| R6   | Invalid Biller                                                                                                                         |
+| R7   | Account Number is valid but cannot receive payments like this                                                                          |
+| R8   | Balance has already been paid                                                                                                          |
+| R9   | Unexpected error (everything entered was correct)                                                                                      |
+| R10  | Incorrect Biller for the Provided Account Number                                                                                       |
+| R11  | Invalid Payment Amount: You must pay the full amount balance                                                                           |
+| R12  | Payment Already Made                                                                                                                   |
+| R13  | Name on account is required                                                                                                            |
+| R14  | Payment amount too large, max amount is 1500 USD                                                                                       |
+| R15  | Account Balance is 0                                                                                                                   |
+| R16  | Failed to make the consult, please try again later                                                                                     |
+| R17  | Invalid Top-up amount                                                                                                                  |
+| R18  | Top-up daily limit exceeded                                                                                                            |
+| R19  | Payments with this biller are currently unavailable                                                                                    |
+| R20  | Lookup time out with biller                                                                                                            |
+| R21  | Configuration issue between us and our biller                                                                                          |
+| R22  | Biller maintenance in progress, please try again later                                                                                 |
+| R23  | No transaction to reverse                                                                                                              |
+| R24  | Timeout from biller                                                                                                                    |
+| R25  | Error with performing the cancellation                                                                                                 |
+| R26  | Reversal not supported for this biller                                                                                                 |
+| R27  | Overdue Bill                                                                                                                           |
+| R28  | Invalid Account Number: Sky account numbers should start with 401 or 501 or 601                                                        |
+| R29  | The biller returned an error. Please check the account number.                                                                         |
+| R30  | Different company                                                                                                                      |
+| R31  | Phone number is no longer active                                                                                                       |
+| R32  | Invalid Payment Amount: Sky minimum payment is $ 185 MXN                                                                               |
+| R33  | Fraud suspected                                                                                                                        |
+| R34  | Invalid Currency                                                                                                                       |
+| R35  | Temporary communication error with carrier. Please try again                                                                           |
+| R36  | Blocked attempt to make a possible duplicate payment. Requests for this account number with this payment amount are blocked for 1 hour |
+| R37  | Recurring payments enabled for this account                                                                                            |
+| R41  | Invalid Payment Amount: You must pay at least the actual account balance                                                               |
+| R42  | Account Number is valid, but is postpaid and doesn’t have balance yet                                                                  |
+| R43  | Invalid Barcode Format. Please the payment with the account number                                                                     |
+| R44  | Invalid Customer Status. This customer is required to show in person at the Biller location                                            |
+| R45  | The maximum number of payments for this account on this day was reached                                                                |
+| R46  | Can't get balance. This customer is required to show in person at the Biller location.                                                 |
+| R47  | No connection with the billerUnable to perform operation, biller returned an unexpected error                                          |
+| R48  | Unable to perform operation, biller returned an unexpected error                                                                       |
+| R49  | Transaction ID previously used, There is already an operation linked to the transaction id                                             |
+| R99  | Catchall error                                                                                                                         |
+| R100 | Insufficient balance. Make a call to /account to get your current balance                                                              |
+| R101 | Biller doesn’t support balance lookup                                                                                                  |
+| R102 | Invalid or missing parameters                                                                                                          |
+| R103 | Transaction already reversed                                                                                                           |
+| R104 | Invalid Subscription ID. Please verify the ID that you passed or create a new subscription                                             |
+| R105 | Only same day reversals are allowed                                                                                                    |
+| R106 | Exceeded the time allowed to reverse the transaction                                                                                   |
+| R114 | Payment amount too large, max amount is 2500 USD                                                                                       |
+| R115 | POS number is invalid                                                                                                                  |
+| R117 | Company is not assigned                                                                                                                |
+| R118 | Biller doesn't support autopay                                                                                                         |
+| R119 | Biller doesn't support balance tracking                                                                                                |
+| R121 | Balance lookup issue                                                                                                                   |
+| R122 | Balance not yet available for this biller                                                                                              |
+| R124 | Company doesn't support cash out                                                                                                       |
+| R125 | Company doesn't support deposit                                                                                                        |
+| R126 | Transacción no realizada por haber excedido su límite permitido. Acuda a una sucursal bancaria.                                        |
+| R127 | Transacción no realizada.                                                                                                              |
+| R200 | Processor OK                                                                                                                           |
+| R201 | Processor Access Denied                                                                                                                |
+| R202 | Processor does not return balance                                                                                                      |
+| R299 | Catchall Processor error                                                                                                               |

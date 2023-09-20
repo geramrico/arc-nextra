@@ -1,0 +1,31 @@
+import { Tabs, Tab } from 'nextra-theme-docs'
+
+## Payee A
+
+### General Information
+
+| **Concept**                | **Data**                                                                                  |
+| :------------------------- | :---------------------------------------------------------------------------------------- |
+| Financial Institution Name | Payee A                                                                                   |
+| Commercial Name            | Payee A (List under this name at your POS)                                                |
+| Legal Name                 | Payee A Co. S.A. de C.V. (Print on the receipt)                                           |
+| ID / SKU                   | 40857 ([biller_id in transaction request](/API-reference/endpoints#create-a-transaction)) |
+| Applicable Endpoint(s))    | POST /single/deposit                                                                      |
+
+### Transaction Reference Specification
+
+<Tabs items={['Deposit','Card Payment']}>
+  <Tab>
+  | **Concept**         | **Data**                  |
+| :------------------ | :------------------------ |
+| Length              | 11                        |
+| BIN or Prefix       | No                        |
+| Description         | Final user account number |
+| Capture via Barcode | True                      |
+| Capture via QR      | True                      |
+| Capture Manually    | True                      |
+  </Tab>
+  <Tab>
+ This Payee does not support card payments
+  </Tab>
+</Tabs>
